@@ -16,19 +16,37 @@ public class MainNew {
     public static void main(String[] args) {
         System.out.println("Processing started");
         try {
-            List<String> lines = readFile();
-            if (!lines.get(0).toLowerCase().contains("e") &&
-                !lines.get(0).toLowerCase().contains("t") &&
-                !lines.get(0).toLowerCase().contains("a") &&
-                !lines.get(0).toLowerCase().contains("o")) {
-                System.out.println("No english text, no processing done");
+            List<String> fileLines = readFile();
+            if (!isEnglish(fileLines)) {
+                dataSelectionFailed();
                 System.exit(1);
             }
-            saveFile(lines);
+            List<String> upperCaseLines = convertCase(fileLines);
+            saveFile(upperCaseLines);
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("Processing completed");
+    }
+
+    private static List<String> convertCase(List<String> lines) {
+        List<String> newLines = new ArrayList<>();
+        for(String line: lines) {
+            newLines.add(line.toUpperCase());
+        }
+        return newLines;
+    }
+
+    private static void dataSelectionFailed() {
+        System.out.println("No english text, no processing done");
+    }
+
+    private static boolean isEnglish(List<String> lines) {
+        String firstLineLower = lines.get(0).toLowerCase();
+        return firstLineLower.contains("e") ||
+               firstLineLower.contains("t") ||
+               firstLineLower.contains("a") ||
+               firstLineLower.contains("o");
     }
 
     private static List<String> readFile() throws IOException {
@@ -45,7 +63,7 @@ public class MainNew {
     private static void saveFile(List<String> lines) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(new File(ROOT + "output.txt")));
         for (String s : lines)
-            writer.write(s.toUpperCase() + "\n");
+            writer.write(s + "\n");
         writer.close();
     }
 }
