@@ -1,0 +1,18 @@
+this is a sample text.
+
+it was written in october 2024.
+
+here is the alphabet in lower case letters: abcdefghijklmnopqrstuvwxyz
+here is the alphabet in upper case letters: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+DATA:
+1   Jeanne Calment  21 February 1875   122 years, 164 days  France
+2   Kane Tanaka     2 January 1903     119 years, 107 days  Japan
+3   Sarah Knauss    24 September 1880  119 years, 97 days   United States
+4   Lucile Randon   11 February 1904   118 years, 340 days  France
+5   Nabi Tajima     4 August 1900      117 years, 260 days  Japan
+6   Marie Meilleur  29 August 1880     117 years, 230 days  Canada
+7   Violet Brown    10 March 1900      117 years, 189 days  Jamaica
+8   Maria Branyas   4 March 1907       117 years, 168 days  Spain
+9   Emma Morano     29 November 1899   117 years, 137 days  Italy
+10  Chiyo Miyako    2 May 1901         117 years, 81 days   Japan
