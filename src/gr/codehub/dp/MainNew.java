@@ -1,11 +1,14 @@
 package gr.codehub.dp;
 
 import gr.codehub.dp.service.CaseConverterService;
+import gr.codehub.dp.service.DataSenderService;
 import gr.codehub.dp.service.EnglishCheckerService;
 import gr.codehub.dp.service.FileReaderService;
 import gr.codehub.dp.service.FileWriterService;
 import gr.codehub.dp.service.GreekCheckerService;
 import gr.codehub.dp.service.LanguageCheckerService;
+import gr.codehub.dp.service.ScreenDisplayService;
+import gr.codehub.dp.service.SenderSelectorService;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,8 +32,8 @@ public class MainNew {
                 System.exit(1);
             }
             List<String> upperCaseLines = convertCase(fileLines);
-            saveFile(ROOT + "output.txt", upperCaseLines);
-        } catch (IOException e) {
+            sendData(ROOT + "output.txt", upperCaseLines);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("Processing completed");
@@ -59,8 +62,20 @@ public class MainNew {
         return lines;
     }
 
-    private static void saveFile(final String fileName, List<String> lines) throws IOException {
-        FileWriterService.saveFile(fileName, lines);
+    private static void sendData(final String fileName, List<String> lines) throws Exception {
+        DataSenderService fs = SenderSelectorService.select(); // dependency injection
+        fs.sendData(lines, fileName);
+
+
+        lines.remove(0);
+        DataSenderService fs2 = SenderSelectorService.select();
+        fs2.sendData(lines, fileName);
+
+        if (fs.getData().size() != fs2.getData().size()){
+            System.out.println("The two services sent different data");
+        } else {
+            System.out.println("The two services sent the same amount data");
+        }
     }
 }
 
