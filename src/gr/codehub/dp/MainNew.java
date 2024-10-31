@@ -16,13 +16,7 @@ public class MainNew {
     public static void main(String[] args) {
         System.out.println("Processing started");
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(new File(ROOT + "input.txt")));
-            List<String> lines = new ArrayList<>();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lines.add(line);
-            }
-            reader.close();
+            List<String> lines = readFile();
             if (!lines.get(0).toLowerCase().contains("e") &&
                 !lines.get(0).toLowerCase().contains("t") &&
                 !lines.get(0).toLowerCase().contains("a") &&
@@ -30,14 +24,29 @@ public class MainNew {
                 System.out.println("No english text, no processing done");
                 System.exit(1);
             }
-            PrintWriter writer = new PrintWriter(new FileWriter(new File(ROOT + "output.txt")));
-            for (String s : lines)
-                writer.write(s.toUpperCase() + "\n");
-            writer.close();
+            saveFile(lines);
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("Processing completed");
+    }
+
+    private static List<String> readFile() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(new File(ROOT + "input.txt")));
+        List<String> lines = new ArrayList<>();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            lines.add(line);
+        }
+        reader.close();
+        return lines;
+    }
+
+    private static void saveFile(List<String> lines) throws IOException {
+        PrintWriter writer = new PrintWriter(new FileWriter(new File(ROOT + "output.txt")));
+        for (String s : lines)
+            writer.write(s.toUpperCase() + "\n");
+        writer.close();
     }
 }
 
