@@ -1,7 +1,6 @@
 package gr.codehub.dp;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,13 +15,13 @@ public class MainNew {
     public static void main(String[] args) {
         System.out.println("Processing started");
         try {
-            List<String> fileLines = readFile();
+            List<String> fileLines = readFile(ROOT + "input.txt");
             if (!isEnglish(fileLines)) {
                 dataSelectionFailed();
                 System.exit(1);
             }
             List<String> upperCaseLines = convertCase(fileLines);
-            saveFile(upperCaseLines);
+            saveFile(ROOT + "output.txt", upperCaseLines);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,8 +48,8 @@ public class MainNew {
                firstLineLower.contains("o");
     }
 
-    private static List<String> readFile() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File(ROOT + "input.txt")));
+    private static List<String> readFile(final String fileName) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
         List<String> lines = new ArrayList<>();
         String line;
         while ((line = reader.readLine()) != null) {
@@ -60,8 +59,8 @@ public class MainNew {
         return lines;
     }
 
-    private static void saveFile(List<String> lines) throws IOException {
-        PrintWriter writer = new PrintWriter(new FileWriter(new File(ROOT + "output.txt")));
+    private static void saveFile(final String fileName, List<String> lines) throws IOException {
+        PrintWriter writer = new PrintWriter(new FileWriter(fileName));
         for (String s : lines)
             writer.write(s + "\n");
         writer.close();
