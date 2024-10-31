@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+public class MainOld {
     private static final String ROOT = "data\\";
 
     public static void main(String[] args) {
