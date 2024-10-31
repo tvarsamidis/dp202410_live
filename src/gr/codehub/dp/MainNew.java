@@ -1,11 +1,19 @@
 package gr.codehub.dp;
 
+import gr.codehub.dp.service.CaseConverterService;
+import gr.codehub.dp.service.EnglishCheckerService;
+import gr.codehub.dp.service.FileReaderService;
+import gr.codehub.dp.service.FileWriterService;
+import gr.codehub.dp.service.GreekCheckerService;
+import gr.codehub.dp.service.LanguageCheckerService;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainNew {
@@ -29,41 +37,30 @@ public class MainNew {
     }
 
     private static List<String> convertCase(List<String> lines) {
-        List<String> newLines = new ArrayList<>();
-        for(String line: lines) {
-            newLines.add(line.toUpperCase());
-        }
-        return newLines;
+        List<String> convertedLines = CaseConverterService.convertCase(lines);
+        return convertedLines;
     }
 
     private static void dataSelectionFailed() {
         System.out.println("No english text, no processing done");
     }
 
-    private static boolean isEnglish(List<String> lines) {
-        String firstLineLower = lines.get(0).toLowerCase();
-        return firstLineLower.contains("e") ||
-               firstLineLower.contains("t") ||
-               firstLineLower.contains("a") ||
-               firstLineLower.contains("o");
+    private static boolean isEnglish(List<String> lines) { // dependency injection
+        LanguageCheckerService ls = new GreekCheckerService();
+        return ls.isLanguage(lines);
+    }
+
+    private static List<String> decideWhichTypeOfList() {
+        return Math.random() >= 0 ? new ArrayList<>() : new LinkedList<>();
     }
 
     private static List<String> readFile(final String fileName) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-        List<String> lines = new ArrayList<>();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            lines.add(line);
-        }
-        reader.close();
+        List<String> lines = FileReaderService.readFile(fileName);
         return lines;
     }
 
     private static void saveFile(final String fileName, List<String> lines) throws IOException {
-        PrintWriter writer = new PrintWriter(new FileWriter(fileName));
-        for (String s : lines)
-            writer.write(s + "\n");
-        writer.close();
+        FileWriterService.saveFile(fileName, lines);
     }
 }
 
