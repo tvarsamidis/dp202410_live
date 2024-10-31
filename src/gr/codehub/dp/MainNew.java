@@ -32,7 +32,7 @@ public class MainNew {
                 System.exit(1);
             }
             List<String> upperCaseLines = convertCase(fileLines);
-            sendData(ROOT + "output.txt", upperCaseLines);
+            sendData(ROOT + "********", upperCaseLines);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,19 +62,11 @@ public class MainNew {
         return lines;
     }
 
-    private static void sendData(final String fileName, List<String> lines) throws Exception {
+    private static void sendData(final String fileName, List<String> lines)  {
         DataSenderService fs = SenderSelectorService.select(); // dependency injection
         fs.sendData(lines, fileName);
-
-
-        lines.remove(0);
-        DataSenderService fs2 = SenderSelectorService.select();
-        fs2.sendData(lines, fileName);
-
-        if (fs.getData().size() != fs2.getData().size()){
-            System.out.println("The two services sent different data");
-        } else {
-            System.out.println("The two services sent the same amount data");
+        if (fs.getException() != null) {
+            System.out.println("The error was: " + fs.getException().getMessage());
         }
     }
 }

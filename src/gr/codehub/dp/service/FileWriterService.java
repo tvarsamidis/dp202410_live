@@ -9,6 +9,7 @@ import java.util.List;
 public class FileWriterService implements DataSenderService {
 
     private List<String> data;
+    private Exception exception = null;
 
     private static void saveFile(final String fileName, List<String> lines) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(fileName));
@@ -18,13 +19,22 @@ public class FileWriterService implements DataSenderService {
     }
 
     @Override
-    public void sendData(List<String> data, String target) throws Exception {
+    public void sendData(List<String> data, String target) {
         this.data = new ArrayList<>(data);
-        saveFile(target, data);
+        exception = null;
+        try {
+            saveFile(target, data);
+        } catch(Exception e) {
+            exception = e;
+        }
     }
 
     @Override
     public List<String> getData() {
         return data;
+    }
+
+    public Exception getException() {
+        return exception;
     }
 }
